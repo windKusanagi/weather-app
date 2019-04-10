@@ -44,7 +44,7 @@ exports.signup = (req, res, next) => {
 			return next(err);
 		}
 		// Send the token back to the user
-		res.json({ token: UserToken(user)});
+		res.status(201).send({ token: UserToken(user)});
 	});
 	
 };

@@ -1,0 +1,58 @@
+.auth{
+	width: 70%;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	padding-top: 120px; 
+	&__title{
+		width: 100%;
+		margin-bottom: 40px;
+		p{
+			margin: 0;
+			text-align: center;
+			font-size: 30px;
+			color: #464c4f;
+			font-weight: 100;
+		}
+	}
+
+	&__paper{
+		width: 50%;
+		margin: auto;
+		height: auto;
+
+		&__header{
+			width: 70%;
+			margin: auto;
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			margin-bottom: 20px;
+			p{
+				margin: 0;
+				font-size: 20px;
+				font-weight: 100;
+				align-self: center;
+			}
+		}
+	}
+}
+
+.auth-form{
+	width: 70%;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+
+	&__hint{
+		text-align: center;
+	}
+
+	&__error{
+		text-align: center;
+		color: red;
+		p{
+			margin: 0;
+		}
+	}
+}
