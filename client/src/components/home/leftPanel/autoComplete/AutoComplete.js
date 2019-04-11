@@ -1,187 +1,132 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import deburr from 'lodash/deburr';
-import Downshift from 'downshift';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import MenuItem from '@material-ui/core/MenuItem';
-
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' },
-];
-
-function renderInput(inputProps) {
-  const { InputProps, classes, ref, ...other } = inputProps;
-
-  return (
-    <TextField
-      InputProps={{
-        inputRef: ref,
-        classes: {
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        },
-        ...InputProps,
-      }}
-      {...other}
-    />
-  );
-}
-
-const renderSuggestion = ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) => {
-  const isHighlighted = highlightedIndex === index;
-  const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
-
-  return (
-    <MenuItem
-      {...itemProps}
-      key={suggestion.label}
-      selected={isHighlighted}
-      component="div"
-      style={{
-        fontWeight: isSelected ? 500 : 400,
-      }}
-    >
-      {suggestion.label}
-    </MenuItem>
-  );
-}
-
-renderSuggestion.propTypes = {
-  highlightedIndex: PropTypes.number,
-  index: PropTypes.number,
-  itemProps: PropTypes.object,
-  selectedItem: PropTypes.string,
-  suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
-};
-
-const getSuggestions = value => {
-  const inputValue = deburr(value.trim()).toLowerCase();
-  const inputLength = inputValue.length;
-  let count = 0;
-
-  return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => {
-        const keep =
-          count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
-        if (keep) {
-          count += 1;
-        }
-        return keep;
-      });
-}
-
+import PlacesAutocomplete from "react-places-autocomplete";
+import {
+	geocodeByAddress,
+	// geocodeByPlaceId,
+	getLatLng
+} from "react-places-autocomplete";
+import React from "react";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import { withStyles } from "@material-ui/core/styles";
+import MenuItem from "@material-ui/core/MenuItem";
+import { compose } from "redux";
+import { connect } from "react-redux";
 
 const styles = theme => ({
-  root: {
-	flexGrow: 1,
-	alignSelf: "center"
-  },
-  container: {
-    flexGrow: 1,
-    position: 'relative',
-  },
-  paper: {
-    position: 'absolute',
-    zIndex: 1,
-    marginTop: theme.spacing.unit,
-    left: 0,
-    right: 0,
-  },
-  chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
-  },
-  inputRoot: {
-    flexWrap: 'wrap',
-  },
-  inputInput: {
-    width: 'auto',
-    flexGrow: 1,
-  },
+	root: {
+		flexGrow: 1,
+		alignSelf: "center"
+	},
+	container: {
+		flexGrow: 1,
+		position: "relative"
+	},
+	paper: {
+		position: "absolute",
+		zIndex: 1,
+		marginTop: theme.spacing.unit
+	},
+	inputRoot: {
+		width: "80%",
+		flexWrap: "wrap"
+	},
+	inputInput: {
+		width: "100%",
+		flexGrow: 1,
+		alignSelf: "center",
+		marginTop: "15px"
+	}
 });
 
-const AutoComplete = props => {
-  const { classes } = props;
+class AutoComplete extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = { address: "" };
+	}
 
-  return (
-    <div className={classes.root}>
-      <Downshift id="downshift-simple">
-        {({
-          getInputProps,
-          getItemProps,
-          getMenuProps,
-          highlightedIndex,
-          inputValue,
-          isOpen,
-          selectedItem,
-        }) => (
-          <div className={classes.container}>
-            {renderInput({
-              fullWidth: true,
-              classes,
-              InputProps: getInputProps({
-                placeholder: 'Type city name',
-              }),
-            })}
-            <div {...getMenuProps()}>
-              {isOpen ? (
-                <Paper className={classes.paper} square>
-                  {getSuggestions(inputValue).map((suggestion, index) =>
-                    renderSuggestion({
-                      suggestion,
-                      index,
-                      itemProps: getItemProps({ item: suggestion.label }),
-                      highlightedIndex,
-                      selectedItem,
-                    }),
-                  )}
-                </Paper>
-              ) : null}
-            </div>
-          </div>
-        )}
-      </Downshift>
-    </div>
-  );
+	handleChange = address => {
+		this.setState({ address });
+	};
+
+	handleSelect = address => {
+		geocodeByAddress(address)
+			.then(results => getLatLng(results[0]))
+			.then(latLng => console.log("Success", latLng))
+			.catch(error => console.error("Error", error));
+	};
+
+	render() {
+		const { classes } = this.props;
+		return (
+			<PlacesAutocomplete
+				value={this.state.address}
+				onChange={this.handleChange}
+				onSelect={this.handleSelect}
+			>
+				{({
+					getInputProps,
+					suggestions,
+					getSuggestionItemProps,
+					loading
+				}) => (
+					<div className={classes.inputRoot}>
+						<TextField
+							id="google-place-autocomplete"
+							{...getInputProps({
+								placeholder: "Search Places ..."
+							})}
+							className={classes.inputInput}
+						/>
+
+						<div className="autocomplete-dropdown-container">
+							<Paper className={classes.paper} square>
+								{loading && <MenuItem>loading...</MenuItem>}
+								{suggestions.map(suggestion => {
+									const className = suggestion.active
+										? "suggestion-item--active"
+										: "suggestion-item";
+									// inline style for demonstration purpose
+									const style = suggestion.active
+										? {
+												backgroundColor: "#fafafa",
+												cursor: "pointer",
+												fontWeight: "500"
+										  }
+										: {
+												backgroundColor: "#ffffff",
+												cursor: "pointer",
+												fontWeight: "400"
+										  };
+									return (
+										<MenuItem
+											{...getSuggestionItemProps(
+												suggestion,
+												{
+													className,
+													style
+												}
+											)}
+										>
+											{suggestion.description}
+										</MenuItem>
+									);
+								})}
+							</Paper>
+						</div>
+					</div>
+				)}
+			</PlacesAutocomplete>
+		);
+	}
 }
 
-AutoComplete.propTypes = {
-  classes: PropTypes.object.isRequired,
+const mapDispatchToProps = dispatch => {
+	return {};
 };
-
-export default withStyles(styles)(AutoComplete);
+export default compose(
+	withStyles(styles),
+	connect(
+		null,
+		mapDispatchToProps
+	)
+)(AutoComplete);

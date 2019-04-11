@@ -1,12 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { compose } from "redux";
 import Divider from "@material-ui/core/Divider";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import Fab from "@material-ui/core/Fab";
-// import IconButton from '@material-ui/core/IconButton';
 import AddIcon from "@material-ui/icons/Add";
 import "./LeftPanel.scss";
 import AutoComplete from "./autoComplete/AutoComplete";
@@ -22,16 +18,16 @@ const styles = theme => ({
 	divider: {
 		marginTop: theme.spacing.unit,
 		marginBottom: theme.spacing.unit,
-		marginLeft: "-10px",
-		marginRight: "-10px",
+		marginLeft: "-6px",
+		marginRight: "-6px",
 		height: 2,
 		backgroundColor: "black"
 	}
 });
 
-class LeftPanel extends Component {
-	render() {
-		const { classes } = this.props;
+const LeftPanel = props => {
+
+		const { classes } = props;
 		return (
 			<div>
 				<div className="left__search">
@@ -48,11 +44,11 @@ class LeftPanel extends Component {
 				<Divider className={classes.divider} />
 			</div>
 		);
-	}
+
 }
 
 LeftPanel.propTypes = {
 	classes: PropTypes.object.isRequired
 };
 
-export default compose(withStyles(styles))(LeftPanel);
+export default withStyles(styles)(LeftPanel);
