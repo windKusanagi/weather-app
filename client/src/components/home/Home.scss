@@ -1,0 +1,28 @@
+.home {
+	width: 90%;
+	margin: auto;
+	height: 70%;
+	margin-top: 30px;
+
+	// &__left-desktop {
+
+	// }
+	// &__right{
+
+	// }
+}
+
+@media only screen and (max-width: 600px) {
+	.home {
+		width: 100%;
+		&__left-desktop {
+			display: none;
+		}
+
+		&__right {
+			div {
+				box-shadow: none !important;
+			}
+		}
+	}
+}
