@@ -10,6 +10,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import blue from "@material-ui/core/colors/blue";
 import { connect } from "react-redux";
 import { signout } from "../../../store/actions/authActions";
+import classNames from "classnames";
+import "./Header.scss";
+
 
 const styles = theme => ({
 	root: {
@@ -35,7 +38,7 @@ const Header = props => {
 			<AppBar position="static" className={classes.colorVar}>
 				<Toolbar>
 					<IconButton
-						className={classes.menuButton}
+						className={classNames(classes.menuButton, "header-menu")}
 						color="inherit"
 						aria-label="Menu"
 					>

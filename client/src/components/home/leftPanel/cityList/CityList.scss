@@ -1,0 +1,21 @@
+.cityList{
+	&__item{
+		padding-left: 0 !important;
+		padding-right: 0 !important; 
+	}
+
+	&__empty{
+		width: 100%;
+		height: 100px;
+		text-align: center;
+		line-height: 100px;
+	}
+}
+
+@media only screen and (max-width: 950px) {
+	.cityList{
+		&__avatar{
+			display: none !important;
+		}
+	}
+}

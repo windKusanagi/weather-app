@@ -5,4 +5,16 @@
 		flex-direction: row;
 		justify-content: space-between;
 	}
+
+	&__list{
+		display: flex;
+		flex-direction: column;
+		margin-top: 30px;
+		
+		&__title{
+			margin: 0;
+			align-self: flex-start;
+		}
+	}
+
 }
