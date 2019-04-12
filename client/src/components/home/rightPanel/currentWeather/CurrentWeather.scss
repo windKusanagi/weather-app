@@ -1,0 +1,47 @@
+.currentWeather{
+	&__top{
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		p{
+			padding-left: 12px;
+			font-weight: 600;
+			font-size: 30px;
+			margin: 0;
+			margin-top: 6px;
+		}
+	}
+
+	&__mid{
+		width:  100%;
+		display: flex;
+		flex-direction: row;
+		margin-top: 20px;
+		&__left{
+			width: 40%;
+			min-width: 200px;
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			img{
+				align-self: center;
+				width: 100%;
+				height: auto;
+			}
+		}
+
+		&__right{
+			width: 60%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+
+			p{
+				margin: 0;
+				text-align: left;
+			}
+
+		}
+	}
+}

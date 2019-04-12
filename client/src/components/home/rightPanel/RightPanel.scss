@@ -1,0 +1,15 @@
+.right{
+	
+	&__loading-default{
+		width: 100%;
+		height: 200px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		justify-content: space-around;
+		p{
+			margin: 9;
+			text-align: center;
+		}
+	}
+}
