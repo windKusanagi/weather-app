@@ -17,9 +17,9 @@
 		width:  100%;
 		display: flex;
 		flex-direction: row;
-		margin-top: 20px;
+		max-height: 250px;
 		&__left{
-			width: 40%;
+			width: 50%;
 			min-width: 200px;
 			display: flex;
 			flex-direction: row;
@@ -32,10 +32,12 @@
 		}
 
 		&__right{
-			width: 60%;
+			width: 50%;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-around;
+			padding-top: 40px;
+			padding-bottom: 40px;
 
 			p{
 				margin: 0;

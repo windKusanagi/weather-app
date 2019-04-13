@@ -14,7 +14,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import "./CityList.scss";
-import { removeCityFromList } from "../../../../store/actions/weatherActions";
+import {
+	removeCityFromList,
+	fetchAllWeatherData
+} from "../../../../store/actions/weatherActions";
 
 const styles = theme => ({
 	root: {
@@ -26,20 +29,30 @@ const styles = theme => ({
 });
 
 const CityList = props => {
-	const { classes } = props;
+	const { classes, cityList } = props;
+	console.log()
 	return (
 		<div className={classes.root}>
-			<List dense={false}>
-				{props.weather.cityList.length === 0 && (
+			<List component="nav" dense={false}>
+				{cityList.length === 0 && (
 					<div className="cityList__empty">
 						Emtpy list, try adding new cities.
 					</div>
 				)}
-				{props.weather.cityList.length !== 0 &&
-					props.weather.cityList.map(el => {
+				{cityList.length !== 0 &&
+					cityList.map((el, index) => {
 						return (
 							<div key={el.id}>
-								<ListItem className="cityList__item">
+								<ListItem
+									button
+									className="cityList__item"
+									onClick={e => {
+										e.stopPropagation();
+										props.fetchAllWeatherData(
+											cityList[index].latLon
+										);
+									}}
+								>
 									<ListItemAvatar className="cityList__avatar">
 										<Avatar>
 											<LocationCityIcon />
@@ -71,13 +84,14 @@ const CityList = props => {
 
 const mapStateToProps = state => {
 	return {
-		weather: state.weather
+		cityList: state.weather.cityList
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		removeCity: index => dispatch(removeCityFromList(index))
+		removeCity: index => dispatch(removeCityFromList(index)),
+		fetchAllWeatherData: latLon => dispatch(fetchAllWeatherData(latLon))
 	};
 };
 

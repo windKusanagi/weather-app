@@ -9,7 +9,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import { addCityIntoList } from "../../../../store/actions/weatherActions";
+import { addCityIntoList, fetchAllWeatherData } from "../../../../store/actions/weatherActions";
 
 const styles = theme => ({
 	root: {
@@ -63,10 +63,11 @@ class AutoComplete extends React.Component {
 				return getLatLng(results[0]);
 			})
 			.then(latLng => {
+				console.log(latLng);
 				this.setState({
 					currentGps: {
 						lat: latLng.lat,
-						lng: latLng.lng
+						lon: latLng.lng
 					}
 				});
 			})
@@ -80,13 +81,14 @@ class AutoComplete extends React.Component {
 				.split(",")
 				.slice(-1)[0]
 				.trim()})`,
-			latLng: this.state.currentGps
+			latLon: this.state.currentGps
 		});
 		this.setState({
 			address: "",
 			currentGps: {},
 			currentPlaceId: ""
 		});
+		this.props.fetchAllWeatherData(this.state.currentGps);
 	};
 
 	render() {
@@ -166,7 +168,8 @@ class AutoComplete extends React.Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		addCityIntoList: cityData => dispatch(addCityIntoList(cityData))
+		addCityIntoList: cityData => dispatch(addCityIntoList(cityData)),
+		fetchAllWeatherData: latLon => dispatch(fetchAllWeatherData(latLon))
 	};
 };
 export default compose(

@@ -1,0 +1,25 @@
+.oneDayForecast {
+	height: 100px;
+	max-width: 100%;
+	overflow: scroll;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	&__content {
+		min-width: 100px;
+		display: flex;
+		flex-direction: column;
+
+		img {
+			width: 30%;
+			height: auto;
+			margin: auto;
+		}
+
+		p {
+			margin: 0;
+		}
+	}
+}
+
+#one-day-forecast::-webkit-scrollbar {display:none;}

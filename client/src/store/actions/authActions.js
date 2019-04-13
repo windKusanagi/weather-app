@@ -1,11 +1,13 @@
 import axios from "axios";
-const baseUrl = "https://us-central1-weather-app-c8787.cloudfunctions.net/app/";
+import {
+	SIGN_IN_SUCCESS,
+	SIGN_IN_FAILED,
+	SIGN_UP_SUCCESS,
+	SIGN_UP_FAILED,
+	SIGN_OUT
+} from './index';
 
-export const SIGN_UP_SUCCESS = "SIGN_UP_SUCCESS";
-export const SIGN_UP_FAILED = "SIGN_UP_FAILED";
-export const SIGN_IN_SUCCESS = "SIGN_IN_SUCCESS";
-export const SIGN_IN_FAILED = "SIGN_IN_FAILED";
-export const SIGN_OUT = "SIGN_OUT";
+const baseUrl = "https://us-central1-weather-app-c8787.cloudfunctions.net/app/";
 
 export const signin = (formData, callback) => {
 	return dispatch => {

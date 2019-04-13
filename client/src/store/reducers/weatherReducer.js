@@ -6,8 +6,12 @@ import {
 	FETCHING_DEFAULT_WEATHER,
 	STOP_FETCHING_DEFAULT,
 	FETCH_FIVE_DAY_WEATHER,
-	FETCH_FIVE_DAY_WEATHER_FAILED
-} from "../actions/weatherActions";
+	FETCH_FIVE_DAY_WEATHER_FAILED,
+	FETCH_ONE_DAY_FORECAST,
+	FETCH_ONE_DAY_FORECAST_FAILED,
+	FETCH_ALL_WEATHER_DATA,
+	FETCH_ALL_WEATHER_DATA_FAILED
+} from "../actions/index";
 
 const initialState = {
 	currentWeather: {},
@@ -15,7 +19,8 @@ const initialState = {
 	errorMsg: null,
 	currentGps: {},
 	isLoadingDefaultGps: true,
-	fiveDayWeathers: {}
+	fiveDayWeathers: [],
+	oneDayForecast: []
 };
 
 const weatherReducer = (state = initialState, action) => {
@@ -58,13 +63,40 @@ const weatherReducer = (state = initialState, action) => {
 		case FETCH_FIVE_DAY_WEATHER:
 			return {
 				...state,
-				fiveDayWeathers: action.payload,
+				fiveDayWeathers: action.payload.list,
 				errorMsg: null
 			}
 		case FETCH_FIVE_DAY_WEATHER_FAILED:
 			return {
 				...state,
 				fiveDayWeathers: [],
+				errorMsg: action.payload
+			}
+		case FETCH_ONE_DAY_FORECAST:
+			return {
+				...state,
+				oneDayForecast: action.payload.list,
+				errorMsg: null
+			}
+		case FETCH_ONE_DAY_FORECAST_FAILED:
+			return {
+				...state,
+				oneDayForecast: [],
+				errorMsg: action.payload
+			}
+		case FETCH_ALL_WEATHER_DATA:
+			return {
+				...state,
+				currentWeather: action.payload.current,
+				oneDayForecast: action.payload.oneDay.list,
+				fiveDayWeathers: action.payload.fiveDay.list
+			}
+		case FETCH_ALL_WEATHER_DATA_FAILED:
+			return {
+				...state,
+				currentWeather: {},
+				fiveDayWeathers: [],
+				oneDayForecast: [],
 				errorMsg: action.payload
 			}
 		default:

@@ -9,6 +9,7 @@ import { compose } from "redux";
 import { withStyles } from "@material-ui/core/styles";
 import LeftPanel from "./leftPanel/LeftPanel";
 import RightPanel from "./rightPanel/RightPanel";
+import PropTypes from "prop-types";
 
 const styles = theme => ({
 	root: {
@@ -45,6 +46,11 @@ class Home extends Component {
 		);
 	}
 }
+
+Home.propTypes = {
+	classes: PropTypes.object.isRequired
+};
+
 
 const mapStateToProps = state => {
 	return {

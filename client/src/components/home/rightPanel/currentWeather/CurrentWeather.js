@@ -3,37 +3,15 @@ import { connect } from "react-redux";
 import CachedIcon from "@material-ui/icons/Cached";
 import IconButton from "@material-ui/core/IconButton";
 import "./CurrentWeather.scss";
+import { svgPathHelper } from "../../../../static/svgPathHelper";
 
 const CurrentWeather = props => {
 	const { currentWeather } = props;
+	const svgPath = svgPathHelper(
+		currentWeather.weather[0].main,
+		currentWeather.weather[0].description
+	);
 	console.log(currentWeather);
-	let mainSvgPath = "images/";
-	let hr = new Date().getHours();
-
-	switch (currentWeather.weather.main) {
-		case "clear":
-			if (hr <= 18) {
-				mainSvgPath += "day.svg";
-			} else {
-				mainSvgPath += "night.svg";
-			}
-			break;
-		case "clouds":
-			if (hr <= 18) {
-				mainSvgPath += "day.svg";
-			} else {
-				mainSvgPath += "night.svg";
-			}
-			break;
-		default:
-			if (hr <= 18) {
-				mainSvgPath += "day.svg";
-			} else {
-				mainSvgPath += "night.svg";
-			}
-			break;
-	}
-
 	return (
 		<div className="currentWeather">
 			<div className="currentWeather__top">
@@ -44,12 +22,12 @@ const CurrentWeather = props => {
 			</div>
 			<div className="currentWeather__mid">
 				<div className="currentWeather__mid__left">
-					<img src={mainSvgPath} alt="weather-img" />
+					<img src={svgPath} alt="weather-img" />
 				</div>
 				<div className="currentWeather__mid__right">
 					<p>
 						<b>Temperature:</b>{" "}
-						{`${(300 - currentWeather.main.temp).toFixed(2)} °C`}
+						{`${(currentWeather.main.temp - 273.15).toFixed(1)} °C`}
 					</p>
 					<p>
 						<b>Weather:</b>{" "}
