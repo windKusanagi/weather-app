@@ -22,7 +22,6 @@ export const signin = (formData, callback) => {
 				callback();
 			})
 			.catch(err => {
-				console.log("there is an err", err);
 				dispatch({
 					type: SIGN_IN_FAILED,
 					payload: "Sign in failed"

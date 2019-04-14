@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt-nodejs");
 // Define the user model
 const userSchema = new Schema({
 	email: { type: String, unique: true, lowercase: true },
-	password: String
+	password: { type: String, minlength: 8 }
 });
 
 // On Save Hook, encrypt password
@@ -30,8 +30,8 @@ userSchema.pre("save", function(next) {
 	});
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, callback){
-	bcrypt.compare(candidatePassword, this.password, function(err, isMatch){
+userSchema.methods.comparePassword = function(candidatePassword, callback) {
+	bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
 		if (err) return callback(err);
 		callback(null, isMatch);
 	});

@@ -9,7 +9,6 @@ import { fetchAllWeatherData } from "../../../../store/actions/weatherActions";
 
 const CurrentWeather = props => {
 	const { currentWeather, currentId } = props;
-	console.log(currentWeather);
 	const svgPath = svgPathHelper(
 		currentWeather.weather[0].main,
 		currentWeather.weather[0].description

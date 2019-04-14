@@ -1,4 +1,4 @@
-// can be used in .test file to setup a basic redux env
+// can be used in .test.js file to setup a basic redux env
 import React from "react";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
