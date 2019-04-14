@@ -156,3 +156,4 @@ export const clearAllCities = () => {
 		type: CLEAR_ALL_CITIES
 	};
 };
+

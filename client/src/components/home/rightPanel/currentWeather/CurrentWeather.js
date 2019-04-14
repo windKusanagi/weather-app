@@ -5,10 +5,11 @@ import CachedIcon from "@material-ui/icons/Cached";
 import IconButton from "@material-ui/core/IconButton";
 import "./CurrentWeather.scss";
 import { svgPathHelper } from "../../../../static/svgPathHelper";
+import { fetchAllWeatherData } from "../../../../store/actions/weatherActions";
 
 const CurrentWeather = props => {
-	const { currentWeather } = props;
-
+	const { currentWeather, currentId } = props;
+	console.log(currentWeather);
 	const svgPath = svgPathHelper(
 		currentWeather.weather[0].main,
 		currentWeather.weather[0].description
@@ -17,7 +18,13 @@ const CurrentWeather = props => {
 		<div className="currentWeather">
 			<div className="currentWeather__top">
 				<p>{`${currentWeather.name}, ${currentWeather.sys.country}`}</p>
-				<IconButton aria-label="Refresh">
+				<IconButton
+					aria-label="Refresh"
+					onClick={e => {
+						e.preventDefault();
+						props.fetchAllWeaher(currentWeather.coord, currentId);
+					}}
+				>
 					<CachedIcon />
 				</IconButton>
 			</div>
@@ -53,17 +60,23 @@ const CurrentWeather = props => {
 };
 
 CurrentWeather.propTypes = {
-	currentWeather: PropTypes.object.isRequired
+	currentWeather: PropTypes.object.isRequired,
+	currentId: PropTypes.string.isRequired,
+	fetchAllWeaher: PropTypes.func
 };
 
 const mapStateToProps = state => {
 	return {
+		currentId: state.weather.currentCityId,
 		currentWeather: state.weather.currentWeather
 	};
 };
 
 const mapDispatchToProps = dispatch => {
-	return {};
+	return {
+		fetchAllWeaher: (latLon, id) =>
+			dispatch(fetchAllWeatherData(latLon, id))
+	};
 };
 
 export default connect(

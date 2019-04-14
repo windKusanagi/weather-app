@@ -60,3 +60,14 @@
 		margin-top: 5px;
 	}
 }
+
+@media only screen and (max-width: 960px) {
+	.auth {
+		width: 100%;
+		padding-top: 80px;
+
+		&__paper {
+			width: 80%;
+		}
+	}
+}

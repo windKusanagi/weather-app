@@ -46,6 +46,10 @@ const styles = theme => ({
 	}
 });
 
+const searchOptions = {
+	types: ['(cities)']
+  }
+
 class AutoComplete extends React.Component {
 	state = {
 		address: "",
@@ -106,6 +110,7 @@ class AutoComplete extends React.Component {
 					value={this.state.address}
 					onChange={this.handleChange}
 					onSelect={this.handleSelect}
+					searchOptions={searchOptions}
 				>
 					{({
 						getInputProps,

@@ -33,7 +33,6 @@ const styles = theme => ({
 class RightPanel extends Component {
 	componentWillMount = () => {
 		if (navigator.geolocation) {
-			console.log("Geolocation is supported!");
 			navigator.geolocation.getCurrentPosition(
 				position => {
 					this.props.fetchAllWeatherData(
@@ -49,7 +48,6 @@ class RightPanel extends Component {
 				}
 			);
 		} else {
-			console.log("Geolocation is not supported for this Browser/OS.");
 			this.props.updateErrorMsg(
 				"Geolocation is not supported for this Browser/OS."
 			);
@@ -58,7 +56,6 @@ class RightPanel extends Component {
 
 	render() {
 		const { isLoading, isDefault, classes, weather } = this.props;
-
 		let renderCase;
 		if (isLoading) {
 			renderCase = 0;
@@ -73,8 +70,6 @@ class RightPanel extends Component {
 		} else {
 			renderCase = 2;
 		}
-		console.log(weather);
-		console.log(renderCase);
 
 		return (
 			<div>
