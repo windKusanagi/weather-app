@@ -9,9 +9,16 @@ const Root = props => {
 	const { children, initialState } = props;
 	const store = createStore(
 		rootReducers,
-		initialState ? initialState : {
-			auth: { token: localStorage.getItem("token"), errMsg: null }
-		},
+		initialState
+			? initialState
+			: {
+					auth: {
+						token: localStorage.getItem("token")
+							? localStorage.getItem("token")
+							: "",
+						errMsg: ""
+					}
+			  },
 		applyMiddleware(thunk)
 	);
 	return <Provider store={store}>{children}</Provider>;

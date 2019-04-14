@@ -6,7 +6,7 @@
 		"public": "public",
 		"rewrites": [
 			{
-				"source": "/greeting",
+				"source": "/checkToken",
 				"function": "app"
 			},
 			{
@@ -15,10 +15,6 @@
 			},
 			{
 				"source": "/signup",
-				"function": "app"
-			},
-			{
-				"source": "/hello",
 				"function": "app"
 			}
 		]

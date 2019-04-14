@@ -35,9 +35,8 @@ mongoose.connect(
 const requireAuth = passport.authenticate("jwt", { session: false });
 const requireSignin = passport.authenticate("local", { session: false });
 
-app.get("/greeting", requireAuth, (req, res) => res.send({ hi: "there" }));
+app.get("/checkToken", requireAuth, (req, res) => res.send({ data: "authenticated" }));
 app.post("/signin", requireSignin, authentication.signin);
 app.post("/signup", authentication.signup);
-app.get("/hello", (req, res) => res.send({ hi: "hello world" }))
 
 exports.app = functions.https.onRequest(app);

@@ -5,6 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import classNames from "classnames";
 import SignupForm from "./SignupForm";
 import AccountCircleOutlined from "@material-ui/icons/AccountCircleOutlined";
+import { connect } from "react-redux";
 
 const styles = theme => ({
 	root: {
@@ -18,9 +19,17 @@ const styles = theme => ({
 });
 
 class Signup extends Component {
+
 	onSignupSuccess = () => {
-		this.props.history.push('/');
-	}
+		this.props.history.push("/");
+	};
+
+	componentWillMount = () => {
+		if (this.props.token !== "") {
+			this.props.history.push("/");
+		}
+	};
+	
 	render() {
 		const { classes } = this.props;
 		return (
@@ -36,7 +45,7 @@ class Signup extends Component {
 						<AccountCircleOutlined className={classes.icon} />
 						<p> Sign Up </p>
 					</div>
-					<SignupForm onSignupSuccess={this.onSignupSuccess}/>
+					<SignupForm onSignupSuccess={this.onSignupSuccess} />
 				</Paper>
 			</div>
 		);
@@ -44,7 +53,14 @@ class Signup extends Component {
 }
 
 Signup.propTypes = {
-	classes: PropTypes.object.isRequired
+	classes: PropTypes.object.isRequired,
+	token: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(Signup);
+const mapStateToProps = state => {
+	return {
+		token: state.auth.token
+	};
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(Signup));

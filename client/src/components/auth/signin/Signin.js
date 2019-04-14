@@ -6,6 +6,7 @@ import "./Auth.scss";
 import classNames from "classnames";
 import SigninForm from "./SigninForm";
 import AccountCircleOutlined from "@material-ui/icons/AccountCircleOutlined";
+import { connect } from "react-redux";
 
 const styles = theme => ({
 	root: {
@@ -19,9 +20,18 @@ const styles = theme => ({
 });
 
 class Signin extends Component {
+
 	onSigninSuccess = () => {
 		this.props.history.push("/");
 	};
+
+	componentWillMount = () => {
+		console.log(this.props.token);
+		if (this.props.token !== "") {
+			this.props.history.push("/");
+		}
+	};
+
 	render() {
 		const { classes } = this.props;
 
@@ -46,7 +56,13 @@ class Signin extends Component {
 }
 
 Signin.propTypes = {
-	classes: PropTypes.object.isRequired
+	classes: PropTypes.object.isRequired,
+	token: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(Signin);
+const mapStateToProps = state => {
+	return {
+		token: state.auth.token
+	};
+};
+export default connect(mapStateToProps)(withStyles(styles)(Signin));
