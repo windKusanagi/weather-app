@@ -12,6 +12,8 @@ import blue from "@material-ui/core/colors/blue";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { signin } from "../../../store/actions/authActions";
+import debounce from "lodash/debounce";
+import validator from "validator";
 
 const styles = theme => ({
 	input: {
@@ -33,14 +35,35 @@ const styles = theme => ({
 });
 
 class SigninForm extends Component {
-	state = {
-		email: "",
-		password: "",
-		showPassword: false
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: "",
+			password: "",
+			showPassword: false,
+			isEmailValid: true,
+			isPassValid: true
+		};
+		this.delayedCheckEmail = debounce(this.checkEmail, 800);
+		this.delayedCheckPass = debounce(this.checkPassword, 800);
+	}
+
+	checkEmail = () => {
+		this.setState({
+			isEmailValid: validator.isEmail(this.state.email)
+		});
+	};
+
+	checkPassword = () => {
+		this.setState({
+			isPassValid: this.state.password.length >= 8 ? true : false
+		});
 	};
 
 	handleChange = prop => event => {
 		this.setState({ [prop]: event.target.value });
+		if (prop === "email") this.delayedCheckEmail();
+		if (prop === "password") this.delayedCheckPass();
 	};
 
 	handleClickShowPassword = () => {
@@ -68,8 +91,13 @@ class SigninForm extends Component {
 					label="Email"
 					value={this.state.email}
 					onChange={this.handleChange("email")}
+					error={this.state.isEmailValid ? false : true}
 				/>
-
+				{!this.state.isEmailValid && (
+					<p className="auth-form__errMsg">
+						Please input a valid email
+					</p>
+				)}
 				<TextField
 					id="auth-password"
 					className={classNames(classes.input)}
@@ -94,20 +122,32 @@ class SigninForm extends Component {
 							</InputAdornment>
 						)
 					}}
+					error={this.state.isPassValid ? false : true}
 				/>
-
+				{!this.state.isPassValid && (
+					<p className="auth-form__errMsg">
+						Password should be at least 8 characters
+					</p>
+				)}
 				<div className="auth-form__hint">
 					<p>
 						{`Doesn't have an account? `}
 						<Link to="/signup">Regisiter</Link> here
 					</p>
 				</div>
-
 				<Button
 					variant="contained"
 					color="primary"
 					className={classes.button}
 					onClick={this.handleSignin}
+					disabled={
+						!this.state.isEmailValid ||
+						!this.state.isPassValid ||
+						this.state.email === "" ||
+						this.state.password === ""
+							? true
+							: false
+					}
 				>
 					Sign In
 				</Button>
@@ -117,7 +157,9 @@ class SigninForm extends Component {
 }
 
 SigninForm.propTypes = {
-	classes: PropTypes.object.isRequired
+	classes: PropTypes.object.isRequired,
+	auth: PropTypes.object.isRequired,
+	signin: PropTypes.func
 };
 
 const mapStateToProps = state => {

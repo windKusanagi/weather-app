@@ -5,11 +5,17 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
+import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import { addCityIntoList, fetchAllWeatherData } from "../../../../store/actions/weatherActions";
+import {
+	addCityIntoList,
+	fetchAllWeatherData,
+	updateErrorMsg,
+} from "../../../../store/actions/weatherActions";
+import isEmpty from 'lodash/isEmpty';
 
 const styles = theme => ({
 	root: {
@@ -63,7 +69,6 @@ class AutoComplete extends React.Component {
 				return getLatLng(results[0]);
 			})
 			.then(latLng => {
-				console.log(latLng);
 				this.setState({
 					currentGps: {
 						lat: latLng.lat,
@@ -71,7 +76,9 @@ class AutoComplete extends React.Component {
 					}
 				});
 			})
-			.catch(error => console.error("Error", error));
+			.catch(error => {
+				this.props.updateErrorMsg("Invalid City Input!")
+			});
 	};
 
 	handleAdd = () => {
@@ -88,7 +95,7 @@ class AutoComplete extends React.Component {
 			currentGps: {},
 			currentPlaceId: ""
 		});
-		this.props.fetchAllWeatherData(this.state.currentGps);
+		this.props.fetchAllWeatherData(this.state.currentGps, this.state.currentPlaceId);
 	};
 
 	render() {
@@ -158,6 +165,7 @@ class AutoComplete extends React.Component {
 					size="small"
 					className={classes.margin}
 					onClick={this.handleAdd}
+					disabled={isEmpty(this.state.currentGps)? true : false}
 				>
 					<AddIcon />
 				</Fab>
@@ -166,16 +174,31 @@ class AutoComplete extends React.Component {
 	}
 }
 
+AutoComplete.propTypes = {
+	classes: PropTypes.object.isRequired,
+	cityList: PropTypes.array.isRequired,
+	addCityIntoList: PropTypes.func,
+	fetchAllWeatherData: PropTypes.func,
+	updateErrorMsg: PropTypes.func,
+};
+
+const mapStateToProps = state => {
+	return {
+		cityList: state.weather.cityList
+	};
+};
+
 const mapDispatchToProps = dispatch => {
 	return {
 		addCityIntoList: cityData => dispatch(addCityIntoList(cityData)),
-		fetchAllWeatherData: latLon => dispatch(fetchAllWeatherData(latLon))
+		fetchAllWeatherData: (latLon, id) => dispatch(fetchAllWeatherData(latLon, id)),
+		updateErrorMsg: str => dispatch(updateErrorMsg(str)) 
 	};
 };
 export default compose(
 	withStyles(styles),
 	connect(
-		null,
+		mapStateToProps,
 		mapDispatchToProps
 	)
 )(AutoComplete);

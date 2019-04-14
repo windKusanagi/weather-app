@@ -10,12 +10,14 @@
 		text-align: center;
 		line-height: 100px;
 	}
+
+	div:nth-child(2){
+		width: auto;
+		padding: 0;
+		overflow-y: unset !important;
+	}
 }
 
-@media only screen and (max-width: 950px) {
-	.cityList{
-		&__avatar{
-			display: none !important;
-		}
-	}
+.MuiListItemText-root-358{
+	padding: 0px 0px 0px 5px !important;
 }

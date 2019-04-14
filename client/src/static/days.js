@@ -1,4 +1,4 @@
-export const weekDays = ["Sun", "Mon", "Tue", "Web", "Thu", "Fri", "Sat"];
+export const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const months = [
 	"Jan",
 	"Feb",

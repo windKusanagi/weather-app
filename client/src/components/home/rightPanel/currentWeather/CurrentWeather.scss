@@ -19,7 +19,7 @@
 		flex-direction: row;
 		max-height: 250px;
 		&__left{
-			width: 50%;
+			width: 40%;
 			min-width: 200px;
 			display: flex;
 			flex-direction: row;
@@ -32,7 +32,7 @@
 		}
 
 		&__right{
-			width: 50%;
+			width: 60%;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-around;

@@ -5,15 +5,14 @@ import {
 	ADD_CITY_DATA_SUCCESS,
 	REMOVE_CITY_FROM_LIST,
 	CLEAR_ERROR_MSG,
-	FETCHING_DEFAULT_WEATHER,
-	FETCH_DEFAULT_WEATHER,
 	STOP_FETCHING_DEFAULT,
-	FETCH_FIVE_DAY_WEATHER,
-	FETCH_ONE_DAY_FORECAST,
-	FETCH_FIVE_DAY_WEATHER_FAILED,
-	FETCH_ONE_DAY_FORECAST_FAILED,
 	FETCH_ALL_WEATHER_DATA_FAILED,
-	FETCH_ALL_WEATHER_DATA
+	FETCH_ALL_WEATHER_DATA,
+	UPDATE_CITY_ITEM_WEATHER,
+	UPDATE_CITY_ITEM_WEATHER_FAILED,
+	UPDATE_ERROR_MSG,
+	RESET_ERROR_MSG,
+	CLEAR_ALL_CITIES
 } from "./index";
 
 const cur_weather_api_base = "https://api.openweathermap.org/data/2.5/weather?";
@@ -21,6 +20,19 @@ const five_day_api_base =
 	"https://api.openweathermap.org/data/2.5/forecast/daily?";
 const one_day_api_base =
 	"https://api.openweathermap.org/data/2.5/forecast/hourly?";
+
+export const updateErrorMsg = msg => {
+	return {
+		type: UPDATE_ERROR_MSG,
+		payload: msg
+	};
+};
+
+export const resetErrorMsg = () => {
+	return {
+		type: RESET_ERROR_MSG
+	};
+};
 
 export const addCityIntoList = cityData => {
 	return (dispatch, getState) => {
@@ -32,7 +44,7 @@ export const addCityIntoList = cityData => {
 		if (isExist) {
 			dispatch({
 				type: ADD_CITY_DATA_FAILED,
-				payload: "City is alreay in the list"
+				payload: "City is already in the list"
 			});
 		} else {
 			dispatch({
@@ -43,10 +55,10 @@ export const addCityIntoList = cityData => {
 	};
 };
 
-export const removeCityFromList = idx => {
+export const removeCityFromList = id => {
 	return {
 		type: REMOVE_CITY_FROM_LIST,
-		payload: idx
+		payload: id
 	};
 };
 
@@ -56,29 +68,7 @@ export const clearErrMsg = () => {
 	};
 };
 
-export const fetchDefaultWeather = latLon => {
-	return dispatch => {
-		dispatch({
-			type: FETCHING_DEFAULT_WEATHER,
-			payload: latLon
-		});
-		axios
-			.get(
-				`${cur_weather_api_base}lat=${latLon.lat}&lon=${
-					latLon.lon
-				}&appid=${weatherApiKey}`
-			)
-			.then(res => {
-				return dispatch({
-					type: FETCH_DEFAULT_WEATHER,
-					payload: res.data
-				});
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
-};
+
 
 export const stopFetchingDefault = () => {
 	return {
@@ -86,54 +76,7 @@ export const stopFetchingDefault = () => {
 	};
 };
 
-// api.openweathermap.org/data/2.5/forecast/daily?lat=44.6497072&lon=-63.5705359&appid=c51223c219d6aec8cb8c5210449bd859&cnt=1
-export const fetchFiveDayWeather = latLon => {
-	return dispatch => {
-		axios
-			.get(
-				`${five_day_api_base}lat=${latLon.lat}&lon=${
-					latLon.lon
-				}&appid=${weatherApiKey}&cnt=5`
-			)
-			.then(rsp => {
-				dispatch({
-					type: FETCH_FIVE_DAY_WEATHER,
-					payload: rsp.data
-				});
-			})
-			.catch(err => {
-				dispatch({
-					type: FETCH_FIVE_DAY_WEATHER_FAILED,
-					payload: err.response.data
-				});
-			});
-	};
-};
-
-export const fetchOneDayWeather = latLon => {
-	return dispatch => {
-		axios
-			.get(
-				`${one_day_api_base}lat=${latLon.lat}&lon=${
-					latLon.lon
-				}&appid=${weatherApiKey}&cnt=24`
-			)
-			.then(rsp => {
-				dispatch({
-					type: FETCH_ONE_DAY_FORECAST,
-					payload: rsp.data
-				});
-			})
-			.catch(err => {
-				dispatch({
-					type: FETCH_ONE_DAY_FORECAST_FAILED,
-					payload: err.response.data
-				});
-			});
-	};
-};
-
-export const fetchAllWeatherData = latLon => {
+export const fetchAllWeatherData = (latLon, id) => {
 	return dispatch => {
 		const promiseSet = [];
 		promiseSet.push(
@@ -157,16 +100,15 @@ export const fetchAllWeatherData = latLon => {
 				}&appid=${weatherApiKey}&cnt=5`
 			)
 		);
-
 		Promise.all(promiseSet)
 			.then(vals => {
-				console.log(vals);
 				dispatch({
 					type: FETCH_ALL_WEATHER_DATA,
 					payload: {
 						current: vals[0].data,
 						oneDay: vals[1].data,
-						fiveDay: vals[2].data
+						fiveDay: vals[2].data,
+						id
 					}
 				});
 			})
@@ -177,5 +119,40 @@ export const fetchAllWeatherData = latLon => {
 					payload: err.response.data
 				});
 			});
+	};
+};
+
+export const updateCityItemWeather = idx => {
+	return (dispatch, getState) => {
+		const cityList = getState().weather.cityList;
+		const latLon = cityList[idx].latLon;
+		axios
+			.get(
+				`${cur_weather_api_base}lat=${latLon.lat}&lon=${
+					latLon.lon
+				}&appid=${weatherApiKey}`
+			)
+			.then(res => {
+				return dispatch({
+					type: UPDATE_CITY_ITEM_WEATHER,
+					payload: {
+						data: res.data,
+						index: idx
+					}
+				});
+			})
+			.catch(err => {
+				console.log(err);
+				dispatch({
+					type: UPDATE_CITY_ITEM_WEATHER_FAILED,
+					payload: err.response.data
+				});
+			});
+	};
+};
+
+export const clearAllCities = () => {
+	return {
+		type: CLEAR_ALL_CITIES
 	};
 };

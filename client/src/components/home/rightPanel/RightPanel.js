@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-	fetchDefaultWeather,
-	stopFetchingDefault
+	fetchAllWeatherData,
+	stopFetchingDefault,
+	updateErrorMsg
 } from "../../../store/actions/weatherActions";
 import LoadingCircle from "../../widget/LoadingCircle";
 import CurrentWeather from "./currentWeather/CurrentWeather";
 import FiveDayForecast from "./fiveDayForecast/FiveDayForecast";
 import OneDayForecast from "./oneDayForecast/OneDayForecast";
 import Divider from "@material-ui/core/Divider";
-import { compose } from 'redux';
+import { compose } from "redux";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import "./RightPanel.scss";
+import isEmpty from "lodash/isEmpty";
 
 const styles = theme => ({
 	root: {
@@ -22,30 +25,24 @@ const styles = theme => ({
 		marginBottom: theme.spacing.unit
 	},
 	divider_2: {
-		marginTop: theme.spacing.unit*4,
+		marginTop: theme.spacing.unit * 4,
 		marginBottom: theme.spacing.unit
 	}
 });
 
 class RightPanel extends Component {
-	state = {
-		allowLocation: true,
-		errMsg: null
-	};
-
 	componentWillMount = () => {
 		if (navigator.geolocation) {
 			console.log("Geolocation is supported!");
-			this.setState({
-				allowLocation: true,
-				errMsg: null
-			});
 			navigator.geolocation.getCurrentPosition(
 				position => {
-					this.props.fetchDefaultWeather({
-						lat: position.coords.latitude,
-						lon: position.coords.longitude
-					});
+					this.props.fetchAllWeatherData(
+						{
+							lat: position.coords.latitude,
+							lon: position.coords.longitude
+						},
+						""
+					);
 				},
 				err => {
 					this.props.stopFetchingDefault();
@@ -53,31 +50,59 @@ class RightPanel extends Component {
 			);
 		} else {
 			console.log("Geolocation is not supported for this Browser/OS.");
-			this.setState({
-				allowLocation: false,
-				errMsg: "Geolocation is not supported for this Browser/OS."
-			});
+			this.props.updateErrorMsg(
+				"Geolocation is not supported for this Browser/OS."
+			);
 		}
 	};
 
 	render() {
-		const { isLoadingDefault, classes } = this.props;
+		const { isLoading, isDefault, classes, weather } = this.props;
+
+		let renderCase;
+		if (isLoading) {
+			renderCase = 0;
+		} else if (weather.currentCityId === "" && isDefault) {
+			if (!isEmpty(weather.currentWeather)) {
+				renderCase = 2;
+			} else {
+				renderCase = 1;
+			}
+		} else if (weather.currentCityId === "" && !isDefault) {
+			renderCase = 1;
+		} else {
+			renderCase = 2;
+		}
+		console.log(weather);
+		console.log(renderCase);
+
 		return (
 			<div>
-				{isLoadingDefault ? (
-					<div className="right__loading-default">
+				{renderCase === 0 && (
+					<div className="rightPanel__loading-default">
 						<LoadingCircle />
 						<p>
-							Loading your current GPS and weather, please wait...
+							{isDefault
+								? `Loading your current GPS and weather, please wait...`
+								: `Fetching the data, please wait...`}
 						</p>
 					</div>
-				) : (
-					<div>
+				)}
+				{renderCase === 1 && (
+					<div className="rightPanel__loading-default">
+						<p>
+							Please add or select a city to view the temperature
+							forecast
+						</p>
+					</div>
+				)}
+				{renderCase === 2 && (
+					<div className="rightPanel">
 						<CurrentWeather />
-						<Divider className={classes.divider_1}/>
+						<Divider className={classes.divider_1} />
 						<p>{`Temperature in the next 24 hours (converted to your local time):`}</p>
 						<OneDayForecast />
-						<Divider className={classes.divider_2}/>
+						<Divider className={classes.divider_2} />
 						<p>Temperature in the next 5 days:</p>
 						<FiveDayForecast />
 					</div>
@@ -88,20 +113,29 @@ class RightPanel extends Component {
 }
 
 RightPanel.propTypes = {
-	classes: PropTypes.object.isRequired
+	classes: PropTypes.object.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+	isDefault: PropTypes.bool.isRequired,
+	weather: PropTypes.object.isRequired,
+	fetchAllWeatherData: PropTypes.func,
+	stopFetchingDefault: PropTypes.func,
+	updateErrorMsg: PropTypes.func
 };
 
 const mapStateToProps = state => {
 	return {
-		isLoadingDefault: state.weather.isLoadingDefaultGps,
-		currentWeather: state.weather.currentWeather
+		isLoading: state.weather.isLoading,
+		isDefault: state.weather.isDefault,
+		weather: state.weather
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		fetchDefaultWeather: Latlon => dispatch(fetchDefaultWeather(Latlon)),
-		stopFetchingDefault: () => dispatch(stopFetchingDefault())
+		fetchAllWeatherData: (Latlon, id) =>
+			dispatch(fetchAllWeatherData(Latlon, id)),
+		stopFetchingDefault: () => dispatch(stopFetchingDefault()),
+		updateErrorMsg: str => dispatch(updateErrorMsg(str))
 	};
 };
 

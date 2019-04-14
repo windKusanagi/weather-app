@@ -12,6 +12,8 @@ import blue from "@material-ui/core/colors/blue";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { signup } from "../../../store/actions/authActions";
+import debounce from "lodash/debounce";
+import validator from "validator";
 
 const styles = theme => ({
 	input: {
@@ -33,17 +35,28 @@ const styles = theme => ({
 });
 
 class SignupForm extends Component {
-	state = {
-		email: "",
-		password: "",
-		passwordRe: "",
-		weightRange: "",
-		showPassword_1: false,
-		showPassword_2: false
-	};
-
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: "",
+			password: "",
+			passwordRe: "",
+			showPassword: false,
+			isEmailValid: true,
+			isPassValid: true,
+			showPassword_1: false,
+			showPassword_2: false,
+			isPassConfirmed: true
+		};
+		this.delayedCheckEmail = debounce(this.checkEmail, 800);
+		this.delayedCheckPass = debounce(this.checkPassword, 800);
+		this.delayedPassConfrim = debounce(this.confirmPassword, 800);
+	}
 	handleChange = prop => event => {
 		this.setState({ [prop]: event.target.value });
+		if (prop === "email") this.delayedCheckEmail();
+		if (prop === "password") this.delayedCheckPass();
+		if (prop === "passwordRe") this.delayedPassConfrim();
 	};
 
 	handleClickShowPassword = index => {
@@ -52,6 +65,25 @@ class SignupForm extends Component {
 		} else {
 			this.setState(state => ({ showPassword_2: !state.showPassword_2 }));
 		}
+	};
+
+	checkEmail = () => {
+		this.setState({
+			isEmailValid: validator.isEmail(this.state.email)
+		});
+	};
+
+	checkPassword = () => {
+		this.setState({
+			isPassValid: this.state.password.length >= 8 ? true : false
+		});
+	};
+
+	confirmPassword = () => {
+		this.setState({
+			isPassConfirmed:
+				this.state.password === this.state.passwordRe ? true : false
+		});
 	};
 
 	handleSignup = () => {
@@ -77,7 +109,11 @@ class SignupForm extends Component {
 					value={this.state.email}
 					onChange={this.handleChange("email")}
 				/>
-
+				{!this.state.isEmailValid && (
+					<p className="auth-form__errMsg">
+						Please input a valid email
+					</p>
+				)}
 				<TextField
 					id="auth-password"
 					className={classNames(classes.input)}
@@ -105,7 +141,11 @@ class SignupForm extends Component {
 						)
 					}}
 				/>
-
+				{!this.state.isPassValid && (
+					<p className="auth-form__errMsg">
+						Password should be at least 8 characters
+					</p>
+				)}
 				<TextField
 					id="auth-password-confirm"
 					className={classNames(classes.input)}
@@ -134,6 +174,12 @@ class SignupForm extends Component {
 					}}
 				/>
 
+				{!this.state.isPassConfirmed && (
+					<p className="auth-form__errMsg">
+						Passwords does not match!
+					</p>
+				)}
+
 				<div className="auth-form__hint">
 					<p>
 						{`Already have an account? `}
@@ -152,6 +198,16 @@ class SignupForm extends Component {
 					color="primary"
 					className={classes.button}
 					onClick={this.handleSignup}
+					disabled={
+						!this.state.isEmailValid ||
+						!this.state.isPassValid ||
+						!this.state.isPassConfirmed ||
+						this.state.email === "" ||
+						this.state.password === "" ||
+						this.state.passwordRe === ""
+							? true
+							: false
+					}
 				>
 					Sign Up
 				</Button>

@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { signout } from "../../../store/actions/authActions";
 import classNames from "classnames";
 import "./Header.scss";
+import { openDrawer } from "../../../store/actions/userActions";
 
 
 const styles = theme => ({
@@ -41,8 +42,9 @@ const Header = props => {
 						className={classNames(classes.menuButton, "header-menu")}
 						color="inherit"
 						aria-label="Menu"
+						onClick={props.openDrawer}
 					>
-						<MenuIcon />
+						<MenuIcon/>
 					</IconButton>
 					<Typography
 						variant="h6"
@@ -59,12 +61,15 @@ const Header = props => {
 };
 
 Header.propTypes = {
-	classes: PropTypes.object.isRequired
+	classes: PropTypes.object.isRequired,
+	signout: PropTypes.func,
+	signin: PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		signout: () => dispatch(signout())
+		signout: () => dispatch(signout()),
+		openDrawer: () => dispatch(openDrawer())
 	};
 };
 export default connect(

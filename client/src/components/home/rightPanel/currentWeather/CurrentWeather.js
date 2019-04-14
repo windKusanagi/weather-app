@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import CachedIcon from "@material-ui/icons/Cached";
 import IconButton from "@material-ui/core/IconButton";
@@ -7,11 +8,11 @@ import { svgPathHelper } from "../../../../static/svgPathHelper";
 
 const CurrentWeather = props => {
 	const { currentWeather } = props;
+
 	const svgPath = svgPathHelper(
 		currentWeather.weather[0].main,
 		currentWeather.weather[0].description
 	);
-	console.log(currentWeather);
 	return (
 		<div className="currentWeather">
 			<div className="currentWeather__top">
@@ -49,6 +50,10 @@ const CurrentWeather = props => {
 			</div>
 		</div>
 	);
+};
+
+CurrentWeather.propTypes = {
+	currentWeather: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {

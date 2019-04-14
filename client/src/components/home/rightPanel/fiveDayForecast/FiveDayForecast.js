@@ -1,15 +1,12 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchFiveDayWeather } from "../../../../store/actions/weatherActions";
+
 import "./FiveDayForecast.scss";
 import { svgPathHelper } from "../../../../static/svgPathHelper";
 import { months, weekDays } from "../../../../static/days";
 
 class FiveDayForecast extends Component {
-	componentWillMount = () => {
-		this.props.fetchFiveDayWeather(this.props.currentGps);
-	};
-
 	getMonth = index => {
 		let today = new Date();
 		today.setDate(today.getDate() + index);
@@ -30,7 +27,6 @@ class FiveDayForecast extends Component {
 
 	render() {
 		const { fiveDayWeathers } = this.props;
-		console.log(fiveDayWeathers);
 		return (
 			<div className="fiveDayContainer">
 				{fiveDayWeathers.length !== 0 &&
@@ -40,7 +36,8 @@ class FiveDayForecast extends Component {
 								<p>
 									{index === 0
 										? `Today`
-										: `${months[this.getMonth(index)]
+										: `${
+												months[this.getMonth(index)]
 										  }. ${this.getDate(index)}`}
 								</p>
 								<p>{weekDays[this.getDay(index)]}</p>
@@ -65,6 +62,11 @@ class FiveDayForecast extends Component {
 	}
 }
 
+FiveDayForecast.propTypes = {
+	currentGps: PropTypes.object.isRequired,
+	fiveDayWeathers: PropTypes.array.isRequired
+};
+
 const mapStateToProps = state => {
 	return {
 		currentGps: state.weather.currentGps,
@@ -72,13 +74,4 @@ const mapStateToProps = state => {
 	};
 };
 
-const mapDispatchToProps = dispatch => {
-	return {
-		fetchFiveDayWeather: latLon => dispatch(fetchFiveDayWeather(latLon))
-	};
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(FiveDayForecast);
+export default connect(mapStateToProps)(FiveDayForecast);

@@ -4,15 +4,16 @@
 	height: 70%;
 	margin-top: 30px;
 
-	// &__left-desktop {
-
-	// }
-	// &__right{
-
-	// }
+	&__left-drawer{
+		div:nth-child(2){
+			width: 350px;
+			padding: 10px 10px 10px 10px; 
+			overflow-y: unset !important;
+		}
+	}
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 960px) {
 	.home {
 		width: 100%;
 		&__left-desktop {

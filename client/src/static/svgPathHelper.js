@@ -44,7 +44,11 @@ export const svgPathHelper = (main, description, hour = null) => {
 			return dayTime? "images/rainy-1.svg" : "images/rainy-4.svg";
 		case "Thunderstorm":
 			return "images/thunder.svg";
-		case "Atmosphere":
+		case "Smoke":
+			return "images/cloudy.svg";
+		case "Fog":
+			return "images/cloudy.svg";
+		case "Mist":
 			return "images/cloudy.svg";
 		default:
 			break;
