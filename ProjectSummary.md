@@ -3,7 +3,7 @@
 ## Goals and Objectives
 This project is aimed to build a single page weather forecast application using React. The app needs to have two main panels, one for adding or selecting cities and the other is for displaying weather report for the selected city. 
 
-* This app requires to validate the name of cities, but there are many cities that share the same name while locates in different countries (e.g. Halifax, NS, CA and Halifax, UK ). **The openweathermap api does support searching by city name, but it can not determine which city the user wants to check unless appending country info in the request params**. So this app will use google place api (autocomplete api) to validate cities and use geo coordinates to fetch city weather.
+* This app requires to validate the name of cities, but there are many cities that share the same name while locates in different countries (e.g. Halifax, NS, CA and Halifax, UK ). **The openweathermap api does support searching by city name, but it can not determine which city the user wants to check unless appending country info in the request params**. So this app will use Google place api (autocomplete api) to validate cities and use geo coordinates (longitude and latitude) to fetch city weather.
 
 * This app will use [Google material-ui][material-ui] theme to as the default UI theme.
 
