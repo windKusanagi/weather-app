@@ -162,7 +162,7 @@ But if you prefer to try it locally, please read the README files under both [/c
 
 ## Work Progress
 
-| Day | Date | working hours | Progress |
+| Day | Date | Working hours | Progress |
 | ------ | ------ | ------ |------ |
 | Day 1| Apr.8 Mon | Evening time | Project design && implement and deploy a simple express server to firebase cloud function service. |
 | Day 2| Apr.9 Tue| Evening time| Implement the basic seed create-react-app && setup basic routes && implement auth page && connect to the express backend && router guards.  |
