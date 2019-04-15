@@ -123,7 +123,7 @@ $ cd functions
 $ npm install
 $ node index.js
 ```
-### TO run it on firebase cloud function service.
+### To run it on firebase cloud function service.
 
 Make sure you have firebase CLI installed.
 ```sh
