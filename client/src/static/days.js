@@ -21,3 +21,21 @@ export const covertToLocalTime = timeUTC => {
 	return date;
 };
 
+// Get correct day, date, month with a day offset
+export const getMonth = index => {
+	let today = new Date();
+	today.setDate(today.getDate() + index);
+	return today.getMonth();
+};
+
+export const getDate = index => {
+	let today = new Date();
+	today.setDate(today.getDate() + index);
+	return today.getDate();
+};
+
+export const getDay = index => {
+	let today = new Date();
+	today.setDate(today.getDate() + index);
+	return today.getDay();
+};

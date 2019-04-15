@@ -2,10 +2,9 @@
 	display: none !important;
 }
 
+// Only show the menu btn in sm screen size
 @media only screen and (max-width: 960px) {
-
 	.header-menu{
 		display: inline-flex !important;
-	}
-	
+	}	
 }

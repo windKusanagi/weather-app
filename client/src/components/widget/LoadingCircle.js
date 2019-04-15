@@ -10,6 +10,7 @@ const styles = theme => ({
 	}
 });
 
+// Loading icon in Google material design style
 const LoadingCircle = props => {
 	const { classes } = props;
 	return <CircularProgress className={classes.progress} color="secondary" />;

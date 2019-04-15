@@ -29,15 +29,17 @@ class Home extends Component {
 	state = {
 		smScreen: false
 	};
-	
+
 	componentDidMount = () => {
+		// Add a resize listener for dynamically changing the layout of the app
 		window.addEventListener("resize", this.resize);
 		this.resize();
-	}
+	};
 
 	componentWillUnmount = () => {
+		// Remove the listener when unmounting
 		window.removeEventListener("resize", this.resize);
-	}
+	};
 
 	resize = () => {
 		this.setState({
@@ -76,7 +78,7 @@ class Home extends Component {
 							</Paper>
 						</Grid>
 					</Grid>
-					<ErrorSnackbar/>
+					<ErrorSnackbar />
 				</div>
 			</div>
 		);
@@ -87,7 +89,7 @@ Home.propTypes = {
 	classes: PropTypes.object.isRequired,
 	auth: PropTypes.object.isRequired,
 	isDrawerOpen: PropTypes.bool.isRequired,
-	closeDrawer: PropTypes.func,
+	closeDrawer: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -102,6 +104,7 @@ const mapDispatchToProps = dispatch => {
 		closeDrawer: () => dispatch(closeDrawer())
 	};
 };
+
 export default compose(
 	withStyles(styles),
 	connect(

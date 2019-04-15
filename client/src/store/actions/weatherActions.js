@@ -4,7 +4,6 @@ import {
 	ADD_CITY_DATA_FAILED,
 	ADD_CITY_DATA_SUCCESS,
 	REMOVE_CITY_FROM_LIST,
-	CLEAR_ERROR_MSG,
 	STOP_FETCHING_DEFAULT,
 	FETCH_ALL_WEATHER_DATA_FAILED,
 	FETCH_ALL_WEATHER_DATA,
@@ -21,6 +20,7 @@ const five_day_api_base =
 const one_day_api_base =
 	"https://api.openweathermap.org/data/2.5/forecast/hourly?";
 
+// Update error msg and show it in snackbar	
 export const updateErrorMsg = msg => {
 	return {
 		type: UPDATE_ERROR_MSG,
@@ -28,16 +28,20 @@ export const updateErrorMsg = msg => {
 	};
 };
 
+// Clear error msg
 export const resetErrorMsg = () => {
 	return {
 		type: RESET_ERROR_MSG
 	};
 };
 
+// Add a city into city list
 export const addCityIntoList = cityData => {
 	return (dispatch, getState) => {
 		const state = getState();
 		let isExist = false;
+
+		// check if the city is already in the list
 		for (let el of state.weather.cityList) {
 			if (el.id === cityData.id) isExist = true;
 		}
@@ -55,19 +59,13 @@ export const addCityIntoList = cityData => {
 	};
 };
 
+// Remove a city from the list by city id
 export const removeCityFromList = id => {
 	return {
 		type: REMOVE_CITY_FROM_LIST,
 		payload: id
 	};
 };
-
-export const clearErrMsg = () => {
-	return {
-		type: CLEAR_ERROR_MSG
-	};
-};
-
 
 
 export const stopFetchingDefault = () => {
@@ -76,6 +74,8 @@ export const stopFetchingDefault = () => {
 	};
 };
 
+// get all weather data including current weather, weather in the 
+// next 24 hrs and weather for the nect five days
 export const fetchAllWeatherData = (latLon, id) => {
 	return dispatch => {
 		const promiseSet = [];
@@ -122,6 +122,7 @@ export const fetchAllWeatherData = (latLon, id) => {
 	};
 };
 
+// Update the current temperature for the city in the city list 
 export const updateCityItemWeather = idx => {
 	return (dispatch, getState) => {
 		const cityList = getState().weather.cityList;
@@ -151,6 +152,7 @@ export const updateCityItemWeather = idx => {
 	};
 };
 
+// remove all cities from the list
 export const clearAllCities = () => {
 	return {
 		type: CLEAR_ALL_CITIES

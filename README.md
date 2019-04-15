@@ -9,7 +9,6 @@ This repo includes two part:
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job.)
 
-
    [client]: <https://github.com/windKusanagi/weather-app/tree/master/client>
    [server]: <https://github.com/windKusanagi/weather-app/tree/master/functions>
 

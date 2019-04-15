@@ -1,6 +1,8 @@
 # Weather Forecast SPA - Frontend 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). 
+
+Try this [live demo here][demo].
 
 ## Available Scripts
 
@@ -24,6 +26,7 @@ This command will remove the single build dependency from your project.
 ## Project Organization
 
 ```bash
+.
 ├── README.md
 ├── package-lock.json
 ├── package.json
@@ -104,17 +107,47 @@ This command will remove the single build dependency from your project.
 The table below shows the dependencies invloved (except installed by create-react-app) in this frontend app.
 
 
-| Plugin | Verson | Porpose |
+| Dependency | Verson | Purpose |
 | ------ | ------ | ------ |
-| @material-ui/core | ^3.9.3 | |
-| @material-ui/icons | ^3.0.2 | |
-| axios | ^0.18.0 | |
-| classnames | ^2.2.6 | |
-| lodash | ^4.17.11 | |
-| react-places-autocomplete | ^7.2.1 | |
-| redux | ^4.0.1| |
-| react-redux | ^7.0.1 | |
-| react-router-dom |  | |
-| redux-thunk |  | |
-| node-sass | ^4.11.0| |
-| validator | | |
+| [@material-ui/core][core] | 3.9.3 | Google material design theme |
+| [@material-ui/icons][icons] | 3.0.2 | Goggle material desgin icons|
+| [axios][axios] | 0.18.0 | Promise based HTTP client |
+| [classnames][classnames] | 2.2.6 | Joining classNames together|
+| [lodash][lodash] | 4.17.11 | Modern JavaScript utility |
+| [react-places-autocomplete][autocomplete] | 7.2.1 | Google place api service for react |
+| [redux][redux] | 4.0.1| State container for JS app |
+| [react-redux][react-redux] | 7.0.1 | Binding react for redux |
+| [react-router-dom][react-router-dom] | 5.0.0 | React router |
+| [redux-thunk][redux-thunk] | 2.3.0 | Thunk middleware for redux action |
+| [node-sass][node-sass] | 4.11.0| Use scss in this app |
+| [validator][validator] | 10.11.0 | Validating javascript objects |
+
+[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job.)
+
+   [demo]: <https://weather-app-c8787.firebaseapp.com/>
+   [core]: <https://material-ui.com/>
+   [icons]: <https://material.io/tools/icons/?style=baseline>
+   [axios]: <https://github.com/axios/axios>
+   [classnames]: <https://github.com/JedWatson/classnames>
+   [lodash]: <https://lodash.com/>
+   [autocomplete]: <https://github.com/hibiken/react-places-autocomplete>
+   [redux]: <https://redux.js.org/>
+   [react-redux]: <https://github.com/reduxjs/react-redux>
+   [react-router-dom]: <https://www.npmjs.com/package/react-router-dom>
+   [redux-thunk]: <https://github.com/reduxjs/redux-thunk>
+   [node-sass]: <https://github.com/sass/node-sass>
+   [validator]: <https://validatejs.org/>
+
+
+<br>
+
+## Installation
+
+Create a new js file src/config/config.js and export your openweathermap api key there. <br>
+Install the dependencies and devDependencies and start the app.
+
+```sh
+$ cd client
+$ npm install
+$ npm start
+```

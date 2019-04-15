@@ -32,6 +32,7 @@ const styles = theme => ({
 
 class RightPanel extends Component {
 	componentWillMount = () => {
+		// Try to get your default GPS and fether the weather data
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 				position => {
@@ -58,17 +59,17 @@ class RightPanel extends Component {
 		const { isLoading, isDefault, classes, weather } = this.props;
 		let renderCase;
 		if (isLoading) {
-			renderCase = 0;
+			renderCase = 0; // When loading the weather data
 		} else if (weather.currentCityId === "" && isDefault) {
 			if (!isEmpty(weather.currentWeather)) {
-				renderCase = 2;
+				renderCase = 2; // Showing default weather report based on your current gps
 			} else {
-				renderCase = 1;
+				renderCase = 1; // Showing empty when geolocation is not accessible
 			}
 		} else if (weather.currentCityId === "" && !isDefault) {
-			renderCase = 1;
+			renderCase = 1; // Showing empty when no city in the list
 		} else {
-			renderCase = 2;
+			renderCase = 2;	// Showing the weather report view
 		}
 
 		return (

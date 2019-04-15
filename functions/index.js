@@ -15,6 +15,7 @@ app.use(morgan("combined"));
 app.use(cors());
 app.use(bodyParser.json({ type: "*/*" }));
 
+// Connect to Mongdb altas 
 mongoose.connect(
 	config.connectKey,
 	{

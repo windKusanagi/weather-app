@@ -14,6 +14,7 @@ const styles = theme => ({
 	}
 });
 
+// A snackbar appears in the mid top screen to show error message
 const ErrorSnackbar = props => {
 	const { classes, errMsg } = props;
 	return (

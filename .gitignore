@@ -47,6 +47,9 @@ build/Release
 node_modules/
 config/
 
+# firebase website hosting files
+dist/
+
 # Optional npm cache directory
 .npm
 

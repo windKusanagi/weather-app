@@ -1,5 +1,6 @@
 import { SIGN_IN_SUCCESS, SIGN_IN_FAILED, SIGN_UP_SUCCESS, SIGN_UP_FAILED, SIGN_OUT } from "../actions/index";
 
+// Initial state for auth reducer
 const initialState = {
 	token: '',
 	errMsg: '',

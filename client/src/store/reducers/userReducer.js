@@ -1,5 +1,6 @@
 import { OPEN_DRAWER, CLOSE_DRAWER } from "../actions/index";
 
+// Initial state for user reducer
 const initialState = {
 	isDrawerOpen: false
 };

@@ -13,9 +13,9 @@ import AddIcon from "@material-ui/icons/Add";
 import {
 	addCityIntoList,
 	fetchAllWeatherData,
-	updateErrorMsg,
+	updateErrorMsg
 } from "../../../../store/actions/weatherActions";
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from "lodash/isEmpty";
 
 const styles = theme => ({
 	root: {
@@ -46,9 +46,10 @@ const styles = theme => ({
 	}
 });
 
+// only search for cities
 const searchOptions = {
-	types: ['(cities)']
-  }
+	types: ["(cities)"]
+};
 
 class AutoComplete extends React.Component {
 	state = {
@@ -81,7 +82,7 @@ class AutoComplete extends React.Component {
 				});
 			})
 			.catch(error => {
-				this.props.updateErrorMsg("Invalid City Input!")
+				this.props.updateErrorMsg("Invalid City Input!");
 			});
 	};
 
@@ -99,7 +100,10 @@ class AutoComplete extends React.Component {
 			currentGps: {},
 			currentPlaceId: ""
 		});
-		this.props.fetchAllWeatherData(this.state.currentGps, this.state.currentPlaceId);
+		this.props.fetchAllWeatherData(
+			this.state.currentGps,
+			this.state.currentPlaceId
+		);
 	};
 
 	render() {
@@ -126,7 +130,6 @@ class AutoComplete extends React.Component {
 								})}
 								className={classes.inputInput}
 							/>
-
 							<div className="autocomplete-dropdown-container">
 								<Paper className={classes.paper} square>
 									{loading && <MenuItem>loading...</MenuItem>}
@@ -170,7 +173,7 @@ class AutoComplete extends React.Component {
 					size="small"
 					className={classes.margin}
 					onClick={this.handleAdd}
-					disabled={isEmpty(this.state.currentGps)? true : false}
+					disabled={isEmpty(this.state.currentGps) ? true : false}
 				>
 					<AddIcon />
 				</Fab>
@@ -184,7 +187,7 @@ AutoComplete.propTypes = {
 	cityList: PropTypes.array.isRequired,
 	addCityIntoList: PropTypes.func,
 	fetchAllWeatherData: PropTypes.func,
-	updateErrorMsg: PropTypes.func,
+	updateErrorMsg: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -196,8 +199,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		addCityIntoList: cityData => dispatch(addCityIntoList(cityData)),
-		fetchAllWeatherData: (latLon, id) => dispatch(fetchAllWeatherData(latLon, id)),
-		updateErrorMsg: str => dispatch(updateErrorMsg(str)) 
+		fetchAllWeatherData: (latLon, id) =>
+			dispatch(fetchAllWeatherData(latLon, id)),
+		updateErrorMsg: str => dispatch(updateErrorMsg(str))
 	};
 };
 export default compose(
