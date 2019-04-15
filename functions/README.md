@@ -1,6 +1,6 @@
-# Weather Forecast SPA - Authenitcation Server 
+# Weather Forecast SPA - Authentication Server 
 
-This is a simple [express][express] REST server which supports validating the user via email&password pair or jtw token. The server is living on firebase cloud fuction service.
+This is a simple [express][express] REST server which supports validating the user via email&password pair or jtw token. The server is living on firebase cloud function service.
 
 
 ## Restful API Sample Request and Response:
@@ -70,7 +70,7 @@ response: {
 
 ## Dependency Installed
 
-The table below shows the dependencies invloved (except installed by create-react-app) in this frontend app.
+The table below shows the dependencies involved (except installed by create-react-app) in this frontend app.
 
 
 | Dependency |  Purpose |
@@ -101,10 +101,10 @@ This project uses [Mongodb altas] as database. To run this server, you need to h
 
 Create a new js file functions/config/config.js and export your mongbe connection string and a secret key string for jwt. 
 
-The default way to create a express app was also changed in order to make this project deployable to firebase cloud functions.
+The default way to create an express app was also changed in order to make this project deployable to firebase cloud functions.
 
 
-### To run it as normal express app.
+### To run it as a normal express app.
 Change:
 ```javascript
 exports.app = functions.https.onRequest(app);
@@ -130,6 +130,7 @@ Make sure you have firebase CLI installed.
 $ firebase init
 ```
 To connect to your firebase app.
+Edit the firebase.json file to bind the sources to app function.
 ```sh
 $ firebase deploy --only functions
 ```

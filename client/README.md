@@ -104,7 +104,7 @@ This command will remove the single build dependency from your project.
 
 ## Dependency Installed
 
-The table below shows the dependencies invloved (except installed by create-react-app) in this frontend app.
+The table below shows the dependencies involved (except installed by create-react-app) in this frontend app.
 
 
 | Dependency | Verson | Purpose |
@@ -144,7 +144,7 @@ The table below shows the dependencies invloved (except installed by create-reac
 ## Installation
 
 Create a new js file src/config/config.js and export your openweathermap api key there. <br>
-Install the dependencies and start the app. A simple authentication sever has been deployed to firebase cloud functions, so you can just install and try this frontend code without worrying about the server stuff 😀.
+Install the dependencies and start the app. A simple authentication server has been deployed to firebase cloud functions, so you can just install and try this frontend code without worrying about the server stuff 😀.
 
 ```sh
 $ cd client
