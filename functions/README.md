@@ -2,6 +2,7 @@
 
 This is a simple [express][express] REST server which supports validating the user via email&password pair or jtw token. The server is living on firebase cloud function service.
 
+Everytime a user has signed in with email/password, a new generated token will be returned to the user.
 
 ## Restful API Sample Request and Response:
 * POST: https://us-central1-weather-app-c8787.cloudfunctions.net/app/signup
