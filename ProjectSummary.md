@@ -1,19 +1,36 @@
 # Weather Forecast SPA Project Summary
 
-## Goals
+## Goals and Objectives
 This project is aimed to build a single page weather forecast application using React. The app needs to have two main panels, one for adding or selecting cities and the other is for displaying weather report for the selected city. 
 
-* This app requires to validate the name of cities, but there are many cities that share the same name but locates in different countries (e.g. Halifax, NS, CA and Halifax, UK ). **The openweathermap api does support searching by city name, but it can not determine which city the user wants to check unless appending country info in the request params**. So this app will use google place api (autocomplete api) to validate cities and use geo coordinates to fetch city weather.
+* This app requires to validate the name of cities, but there are many cities that share the same name while locates in different countries (e.g. Halifax, NS, CA and Halifax, UK ). **The openweathermap api does support searching by city name, but it can not determine which city the user wants to check unless appending country info in the request params**. So this app will use google place api (autocomplete api) to validate cities and use geo coordinates to fetch city weather.
 
 * This app will use [Google material-ui][material-ui] theme to as the default UI theme.
 
-* This app will have responsive UI, which means it will adjust itself according to the window size.
+* This app will have responsive a UI, which means it will adjust itself according to the window size.
 
 * This app will show the current weather report (use openweatheramp [current weather data api][current]), the weather in the next 24 hours ( use openweatheramp [hourly forecast api][hour]), as well as the weather in the next five days (use openweatheramp [16 day weather forecast][day]).
 
 * This app will use [Redux][redux] to do the state management job.
 
-* This app will have an authenication mechanism and will have router guards if the user hasn't signed in.
+* This app will have an authenication mechanism as well as router guards for different user roles.
+
+<br>
+
+## Live Demo or Install Locally
+
+I have deployed this SPA to firebase cloud hosting service. The backend is also hosted on cloud function service. So you can directly test it [here][live-demo] without installing and running both the frontend and server locally.
+
+The app requires to signin/signup with email and password, you can login with the test account below:
+```json
+{
+    "email": "text@example.com",
+    "password": "12345678"
+}
+```
+
+But if you prefer to try it locally, please read the README files under both [/client][client] and [/functions][functions] respectively. Make sure you have necessary config files (openweathermap api key, mongdb connection string and a scret key for jwt encodeing/decoding ) added to your work space.
+
 
 <br>
 
@@ -252,10 +269,13 @@ This project is aimed to build a single page weather forecast application using 
 
 3. Testing.
 
-    There is no test case in this app. Initially, I was planning to test the app using Jest and Enzyme but things had become too complicated to add test case later. And I am also not professional in Jest or Enzyme yet. So I would like to implement Jest/Enzyme test cases for the app in the future work.  
+    There is no test case in this app. Initially, I was planning to test the app using Jest and Enzyme but things had become too complicated to add test cases later. And honestly, I am also not professional in Jest or Enzyme yet. So I would like to implement Jest/Enzyme test cases for the app in the future work.  
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job.)
 
+   [live-demo]: <https://weather-app-c8787.firebaseapp.com>
+   [client]: <https://github.com/windKusanagi/weather-app/tree/master/client>
+   [functions]: <https://github.com/windKusanagi/weather-app/tree/master/functions>
    [material-ui]: <https://material-ui.com/>
    [current]: <https://openweathermap.org/current/>
    [hour]: <https://openweathermap.org/api/hourly-forecast>
