@@ -5,13 +5,12 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CachedIcon from "@material-ui/icons/Cached";
 import IconButton from "@material-ui/core/IconButton";
-
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import "./CityList.scss";
@@ -21,6 +20,7 @@ import {
 	updateCityItemWeather,
 	clearAllCities
 } from "../../../../store/actions/weatherActions";
+import { svgPathHelper } from "../../../../static/svgPathHelper";
 
 const styles = theme => ({
 	root: {
@@ -30,7 +30,7 @@ const styles = theme => ({
 		margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`
 	},
 	deleteBtn: {
-		marginRight: "-15px",
+		marginRight: "-15px"
 	},
 	button: {
 		float: "right"
@@ -38,11 +38,17 @@ const styles = theme => ({
 	actions: {
 		width: "auto !important",
 		overflow: "unset !important"
+	},
+	icon: {
+		width: "30px",
+		height: "30px",
+		marginRight: "0px"
 	}
 });
 
 const CityList = props => {
 	const { classes, cityList } = props;
+
 	return (
 		<div className={classes.root}>
 			<List component="nav" dense={false} className="cityList">
@@ -61,10 +67,27 @@ const CityList = props => {
 									onClick={e => {
 										e.stopPropagation();
 										props.fetchAllWeatherData(
-											cityList[index].latLon, el.id
+											cityList[index].latLon,
+											el.id
 										);
 									}}
 								>
+									<ListItemIcon className={classes.icon}>
+										{el.mainWeather && el.weatherDesc ? (
+											<img
+												src={svgPathHelper(
+													el.mainWeather,
+													el.weatherDesc,
+													new Date().getHours()
+												)}
+												className="cityList__item__icon"
+												alt=""
+											/>
+										) : (
+											<div />
+										)}
+									</ListItemIcon>
+
 									<ListItemText
 										primary={
 											el.currentTemp
@@ -74,7 +97,9 @@ const CityList = props => {
 												: `${el.name}`
 										}
 									/>
-									<ListItemSecondaryAction className={classes.actions}>
+									<ListItemSecondaryAction
+										className={classes.actions}
+									>
 										<IconButton
 											aria-label="Refresh"
 											onClick={e => {
@@ -84,7 +109,7 @@ const CityList = props => {
 												);
 											}}
 										>
-											<CachedIcon fontSize="small"/>
+											<CachedIcon fontSize="small" />
 										</IconButton>
 										<IconButton
 											aria-label="Delete"
@@ -93,7 +118,7 @@ const CityList = props => {
 											}}
 											className={classes.deleteBtn}
 										>
-											<DeleteIcon fontSize="small"/>
+											<DeleteIcon fontSize="small" />
 										</IconButton>
 									</ListItemSecondaryAction>
 								</ListItem>
@@ -121,7 +146,7 @@ CityList.propTypes = {
 	cityList: PropTypes.array.isRequired,
 	removeCity: PropTypes.func,
 	fetchAllWeatherData: PropTypes.func,
-	updateCityItemWeather: PropTypes.func,
+	updateCityItemWeather: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -133,7 +158,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		removeCity: id => dispatch(removeCityFromList(id)),
-		fetchAllWeatherData: (latLon, id) => dispatch(fetchAllWeatherData(latLon, id)),
+		fetchAllWeatherData: (latLon, id) =>
+			dispatch(fetchAllWeatherData(latLon, id)),
 		updateCityItemWeather: index => dispatch(updateCityItemWeather(index)),
 		clearAllCities: () => dispatch(clearAllCities())
 	};

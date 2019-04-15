@@ -79,6 +79,8 @@ const weatherReducer = (state = initialState, action) => {
 			const cityArr = [...state.cityList];
 			if (state.cityList.length !== 0) {
 				cityArr[0].currentTemp = action.payload.current.main.temp;
+				cityArr[0].mainWeather = action.payload.current.weather[0].main;
+				cityArr[0].weatherDesc = action.payload.current.weather[0].description;
 				return {
 					...state,
 					cityList: cityArr,
