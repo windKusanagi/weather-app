@@ -26,7 +26,6 @@ class Signin extends Component {
 	};
 
 	componentWillMount = () => {
-		console.log(this.props.token);
 		if (this.props.token !== "") {
 			this.props.history.push("/");
 		}

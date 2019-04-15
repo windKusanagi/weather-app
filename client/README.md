@@ -144,6 +144,9 @@ The table below shows the dependencies involved (except installed by create-reac
 ## Installation
 
 Create a new js file src/config/config.js and export your openweathermap api key there. <br>
+```javascripts
+export const weatherApiKey = "<you-app-api-key>"
+```
 Install the dependencies and start the app. A simple authentication server has been deployed to firebase cloud functions, so you can just install and try this frontend code without worrying about the server stuff 😀.
 
 ```sh

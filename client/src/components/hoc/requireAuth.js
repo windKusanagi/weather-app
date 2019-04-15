@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-// Simple HOC to prevent acess from unauthenicated users
+// Simple HOC to prevent access from unauthenicated users
 const requireAuth = ChildComponet => {
 	class ComposedComponent extends Component {
 		componentDidMount = () => {
