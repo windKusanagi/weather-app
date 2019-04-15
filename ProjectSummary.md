@@ -155,7 +155,7 @@ But if you prefer to try it locally, please read the README files under both [/c
 
     ![](https://firebasestorage.googleapis.com/v0/b/weather-app-c8787.appspot.com/o/summary-gif%2F24-hrs.gif?alt=media&token=b0c45353-d8cc-4faa-aacf-ccbb34bd575b)
 
-    >As shown in the gif, the app will also retrieve the next 24 hours' weather report based on the geo coordinates you provided.
+    >As shown in the gif, the app will also retrieve the next 24 hours' weather report based on the geo coordinates you provided. A day time icon or a night time icon will be shown based on the timestamp (in your local time).
 
 
 <br>
@@ -263,11 +263,16 @@ But if you prefer to try it locally, please read the README files under both [/c
 
     And I can also implement more meaningful user profile and save the search history for each user on the backend.
     
+2. Limited Types of Weather Icons
+
+    The free weather icons provided by [amcharts][amcharts] are very limited. It doesn't cover weather conditions like "mist", "fog", "smoke", "dust", "sand", "tornado", etc. In the app I used cloudy icon for all those unsupported weather. Will add more animated weather icon to indicate weathers in the future.
+    
+
 3. Error Handling on Frontend
 
     I am using axios (promise based) http requests everywhere in the app and use redux to manage almost all the data flow. But there are still a few unhandled error cases (e.g. Internal error from openweathermap or the express server) need to be taken care of. So in the future work, I will take care of every possible error response and show corresponding error message on the frontend app.
 
-3. Testing.
+4. Testing.
 
     There is no test case in this app. Initially, I was planning to test the app using Jest and Enzyme but things had become too complicated to add test cases later. And honestly, I am also not professional in Jest or Enzyme yet. So I would like to implement Jest/Enzyme test cases for the app in the future work.  
 
@@ -282,4 +287,4 @@ But if you prefer to try it locally, please read the README files under both [/c
    [day]: <https://openweathermap.org/forecast16>
    [redux]: <https://redux.js.org>
    [server]:<https://github.com/windKusanagi/weather-app/tree/master/functions>
-
+   [amcharts]:<https://www.amcharts.com/free-animated-svg-weather-icons/>
